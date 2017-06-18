@@ -12,6 +12,7 @@ import erp_application.view.list.AbstractList;
 import erp_application.view.list.DepartmentList;
 import erp_application.view.list.EmployeeList;
 import erp_application.view.list.TitleList;
+import erp_application.view.panel.ChartPanel;
 import erp_application.jdbc.ImportSettingService;
 
 import javax.swing.JMenuBar;
@@ -32,6 +33,9 @@ public class Erp_Application extends JFrame implements ActionListener {
 	private AbstractList titleList;
 	private JMenuItem mntmBackup;
 	private JMenuItem mntmExit;
+	private JMenu mnNewMenu;
+	private JMenuItem mntmNewMenuItem;
+	private ChartPanel chartPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -68,13 +72,21 @@ public class Erp_Application extends JFrame implements ActionListener {
 		mntmExit = new JMenuItem("종료");
 		mntmExit.addActionListener(this);
 		mnManagement.add(mntmExit);
+		
+		mnNewMenu = new JMenu("New menu");
+		menuBar.add(mnNewMenu);
+		
+		mntmNewMenuItem = new JMenuItem("New menu item");
+		mntmNewMenuItem.addActionListener(this);
+		mnNewMenu.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(2, 2, 10, 10));
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel);
+
+		chartPanel = new ChartPanel(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,7}, 33);
+		contentPane.add(chartPanel);
 		
 		empList = new EmployeeList("사원관리");
 		contentPane.add(empList);
@@ -84,9 +96,13 @@ public class Erp_Application extends JFrame implements ActionListener {
 		
 		titleList = new TitleList("직책관리");
 		contentPane.add(titleList);
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mntmNewMenuItem) {
+			actionPerformedMntmNewMenuItem(e);
+		}
 		if (e.getSource() == mntmExit) {
 			actionPerformedMntmExit(e);
 		}
@@ -113,8 +129,13 @@ public class Erp_Application extends JFrame implements ActionListener {
 		titleList.reload();
 		JOptionPane.showMessageDialog(null, "백업 완료~!");
 	}
+	
 	protected void actionPerformedMntmExit(ActionEvent e) {
 		JOptionPane.showMessageDialog(null, "프로그램을 종료합니다.");
 		System.exit(0);
+	}
+	
+	protected void actionPerformedMntmNewMenuItem(ActionEvent e) {
+		chartPanel.setChartData(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,17,}, 43);
 	}
 }
