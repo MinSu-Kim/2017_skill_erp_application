@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public abstract class AbstractList extends JPanel {
@@ -17,7 +18,7 @@ public abstract class AbstractList extends JPanel {
 	protected JScrollPane scrollPane;
 
 	public AbstractList(String title) {
-		setBorder(new TitledBorder(new EmptyBorder(10, 10, 10, 10), title, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		setLayout(new BorderLayout(0, 0));
 		
 		scrollPane = new JScrollPane();

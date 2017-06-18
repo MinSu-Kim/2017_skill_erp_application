@@ -42,7 +42,7 @@ public class TitleDao implements Dao<Title>{
 
 	@Override
 	public int updateItem(Title item) {
-		sql = "update title set titlename = ? where no=?";
+		sql = "update title set titlename = ? where titleno=?";
 		int res=-1;
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
@@ -59,7 +59,7 @@ public class TitleDao implements Dao<Title>{
 
 	@Override
 	public Title selectByItem(int idx) {
-		sql = "select * from title where no=?";
+		sql = "select * from title where titleno=?";
 		Title title = null;
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
@@ -79,13 +79,13 @@ public class TitleDao implements Dao<Title>{
 	@Override
 	public List<Title> selectByAllItems() {
 		List<Title> titles = new ArrayList<Title>();
-		sql = "select no, titlename from title";
+		sql = "select titleno, titlename from title";
 
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()){
-				titles.add(new Title(rs.getInt("no"), rs.getString("titlename")));
+				titles.add(new Title(rs.getInt("titleno"), rs.getString("titlename")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class TitleDao implements Dao<Title>{
 
 	@Override
 	public void deleteItem(int idx) {
-		sql = "delete from title where no=?";
+		sql = "delete from title where titleno=?";
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, idx);
@@ -110,7 +110,7 @@ public class TitleDao implements Dao<Title>{
 	}
 
 	public int selectNextNo() {
-		sql = "select Max(no) from title";
+		sql = "select Max(titleno) from title";
 		int nextNo = -1;
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
