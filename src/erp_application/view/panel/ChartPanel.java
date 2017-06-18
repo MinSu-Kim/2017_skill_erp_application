@@ -4,51 +4,41 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class ChartPanel extends JPanel {
-	private String[] titles;
-	private int [] data;
-	private int [] arcAngle;
+public class ChartPanel extends JLabel {
+	
+	private String[] deptTitles;	//부서명
+	private int [] deptEmpCnt;		//부서별 인원수
+	private int [] arcAngle;		
 	private Color[] pieColor;
-	private int totalCnt;
+	private int totalCnt;			//총인원수
+	private Color textColor = new Color(0,0,0);
 	
-	
-/*	public ChartPanel(){
-		titles = new String[]{"마케팅","개발", "경영"};
-		data = new int[]{18,8,7};
-		totalCnt = 33;
-		pieColor = new Color[data.length];
-		arcAngle = new int[data.length];
-		initChart();
-	}*/
-	
-	public ChartPanel(String[] titles, int[] data, int totalCnt) {
-		this.titles = titles;
-		this.data = data;
-		this.pieColor = new Color[data.length];
-		this.arcAngle = new int[data.length];
+	public ChartPanel(String[] deptTitles, int[] deptEmpCnt, int totalCnt) {
+		this.deptTitles = deptTitles;
+		this.deptEmpCnt = deptEmpCnt;
+		this.pieColor = new Color[deptEmpCnt.length];
+		this.arcAngle = new int[deptEmpCnt.length];
 		this.totalCnt = totalCnt;
 		initChart();
 	}
 
-	
-	public void setChartData(String[] titles, int[] data, int totalCnt){
-		this.titles = titles;
-		this.data = data;
-		this.pieColor = new Color[data.length];
-		this.arcAngle = new int[data.length];
+	public void setChartData(String[] deptTitles, int[] deptEmpCnt, int totalCnt){
+		this.deptTitles = deptTitles;
+		this.deptEmpCnt = deptEmpCnt;
+		this.pieColor = new Color[deptEmpCnt.length];
+		this.arcAngle = new int[deptEmpCnt.length];
 		this.totalCnt = totalCnt;
 		initChart();
 		repaint();
 	}
 	
-	
-	public void initChart(){
-		if (data!=null){
-			for(int i=0; i<data.length; i++) {
-				arcAngle[i]=(int)Math.round((double)data[i]/(double)totalCnt*360);
+	private void initChart(){
+		if (deptEmpCnt!=null){
+			for(int i=0; i<deptEmpCnt.length; i++) {
+				arcAngle[i]=(int)Math.round((double)deptEmpCnt[i]/(double)totalCnt*360);
 				pieColor[i] = new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
 			}	
 		}
@@ -58,15 +48,17 @@ public class ChartPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (data!=null){
+		if (deptEmpCnt!=null){
 			int startAngle = 0;
-			for(int i=0; i<data.length; i++) {
+			for(int i=0; i<deptEmpCnt.length; i++) {
 				g.setColor(pieColor[i]);
-				g.drawString(titles[i]+" "+Math.round(arcAngle[i]*100./360.)+"%", 50+i*100, 20);
+				g.fillRect(280, 30+i*20, 10, 10);
+				g.setColor(textColor);
+				g.drawString(deptTitles[i] + " " + deptEmpCnt[i]+" 명", 300, 40+i*20);
 			}
-			for(int i=0; i<data.length; i++) {
+			for(int i=0; i<deptEmpCnt.length; i++) {
 				g.setColor(pieColor[i]);
-				g.fillArc(150,50,200,200,startAngle, arcAngle[i]);
+				g.fillArc(50,20,200,200,startAngle, arcAngle[i]);
 				startAngle = startAngle + arcAngle[i];
 			}
 		}

@@ -13,6 +13,7 @@ import erp_application.view.list.DepartmentList;
 import erp_application.view.list.EmployeeList;
 import erp_application.view.list.TitleList;
 import erp_application.view.panel.ChartPanel;
+import erp_application.view.panel.StateChartPanel;
 import erp_application.jdbc.ImportSettingService;
 
 import javax.swing.JMenuBar;
@@ -35,7 +36,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 	private JMenuItem mntmExit;
 	private JMenu mnNewMenu;
 	private JMenuItem mntmNewMenuItem;
-	private ChartPanel chartPanel;
+	private StateChartPanel chartPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -53,7 +54,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 	public Erp_Application() {
 		setTitle("Erp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 705, 548);
+		setBounds(100, 100, 900, 700);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -85,7 +86,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 		contentPane.setLayout(new GridLayout(2, 2, 10, 10));
 		
 
-		chartPanel = new ChartPanel(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,7}, 33);
+		chartPanel = new StateChartPanel("사원 현황");
 		contentPane.add(chartPanel);
 		
 		empList = new EmployeeList("사원관리");
@@ -136,6 +137,6 @@ public class Erp_Application extends JFrame implements ActionListener {
 	}
 	
 	protected void actionPerformedMntmNewMenuItem(ActionEvent e) {
-		chartPanel.setChartData(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,17,}, 43);
+//		chartPanel.setChartData(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,17,}, 43);
 	}
 }

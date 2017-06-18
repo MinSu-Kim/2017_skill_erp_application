@@ -33,7 +33,7 @@ public class EmployeeList extends AbstractList {
 	protected void reAlign() {
 		tableCellAlignment(SwingConstants.CENTER, 0, 1, 2, 3, 5);
 		tableCellAlignment(SwingConstants.RIGHT, 4);
-		tableSetWidth(100, 200, 100, 100, 100, 100);		
+		tableSetWidth(100, 100, 100, 100, 150, 100);		
 	}
 
 	@Override
