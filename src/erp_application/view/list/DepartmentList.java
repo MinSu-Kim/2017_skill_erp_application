@@ -3,16 +3,19 @@ package erp_application.view.list;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import erp_application.Erp_Application;
 import erp_application.dao.DepartmentDao;
 import erp_application.dto.Department;
+import erp_application.view.DepartmentView;
 
 @SuppressWarnings("serial")
 public class DepartmentList extends AbstractList {
 
-	public DepartmentList(String title) {
-		super(title);
+	public DepartmentList(String title, Erp_Application main) {
+		super(title, main);
 	}
 
 	@Override
@@ -23,12 +26,12 @@ public class DepartmentList extends AbstractList {
 	@Override
 	protected String[][] getRows() {
 		List<Department> lists = DepartmentDao.getInstance().selectByAllItems();
-		String[][] arDepts = new String[lists.size()][];
+		arDatas = new String[lists.size()][];
 		
-		for(int i=0; i<arDepts.length; i++){
-			arDepts[i] = lists.get(i).toArray();
+		for(int i=0; i<arDatas.length; i++){
+			arDatas[i] = lists.get(i).toArray();
 		}
-		return arDepts;
+		return arDatas;
 	}
 
 	@Override
@@ -40,5 +43,33 @@ public class DepartmentList extends AbstractList {
 	@Override
 	protected void reSize() {
 		scrollPane.setPreferredSize(new Dimension(450, 300));		
+	}
+
+	@Override
+	public Object getSelectedData() {
+		String dno = arDatas[selectedIdx][0].toString();
+		return DepartmentDao.getInstance().selectByItem(Integer.parseInt(dno));
+	}
+
+	@Override
+	protected void updateItem() {
+		Department selectItem  = (Department)getSelectedData();
+		DepartmentView deptView = new DepartmentView("부서 수정", false, main);
+		deptView.setObject(selectItem);
+		deptView.setVisible(true);		
+	}
+
+	@Override
+	protected void deleteItem() {
+		Department selectItem  = (Department)getSelectedData();
+		DepartmentDao.getInstance().deleteItem(selectItem.getDeptNo());
+		JOptionPane.showMessageDialog(null, selectItem + " 삭제 되었습니다.");
+		main.reloadList();		
+	}
+
+	@Override
+	protected void insertItem() {
+		DepartmentView deptView = new DepartmentView("부서 추가", true, main);
+		deptView.setVisible(true);		
 	}
 }

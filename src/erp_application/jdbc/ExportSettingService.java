@@ -58,6 +58,7 @@ public class ExportSettingService {
 					sb.append(rs.getObject(i) + ","); // 필드사이 구분 [,] 찍어줌
 				}
 				sb.replace(sb.length() - 1, sb.length(), ""); // 마지막라인 [,] 제거
+				sb.append("\n");
 				lineCount++;
 			}
 

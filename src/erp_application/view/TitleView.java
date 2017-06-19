@@ -3,6 +3,7 @@ package erp_application.view;
 
 import javax.swing.JOptionPane;
 
+import erp_application.Erp_Application;
 import erp_application.dao.TitleDao;
 import erp_application.dto.Title;
 import erp_application.view.panel.TitlePanel;
@@ -10,8 +11,9 @@ import erp_application.view.panel.TitlePanel;
 @SuppressWarnings("serial")
 public class TitleView extends AbstractView<Title>{
 
-	public TitleView(boolean isAdd) {
-		super(isAdd);
+	public TitleView(String title, boolean isAdd, Erp_Application main) {
+		super(title, isAdd, main);
+		setSize(300, 150);
 	}
 
 	@Override
@@ -30,11 +32,10 @@ public class TitleView extends AbstractView<Title>{
 			Title updateDept = (Title) pMain.getObject();
 			TitleDao.getInstance().updateItem(updateDept);
 			JOptionPane.showMessageDialog(null, "수정 되었습니다.");
-			btnAdd.setText("추가");
-			pMain.clearObject();
+			dispose();
+			main.reloadList();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
-			pMain.setSelectedTitle();
 		} 			
 	}
 
@@ -44,10 +45,10 @@ public class TitleView extends AbstractView<Title>{
 			Title addDept = (Title) pMain.getObject();
 			TitleDao.getInstance().insertItem(addDept);
 			JOptionPane.showMessageDialog(null, "추가 되었습니다.");
-			pMain.clearObject();
+			dispose();
+			main.reloadList();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
-			pMain.setSelectedTitle();
 		}		
 	}
 

@@ -61,6 +61,7 @@ public class EmployeeDao implements Dao<Employee> {
 			pstmt.setInt(4, item.getDept().getDeptNo());
 			pstmt.setString(5, item.getPost());
 			pstmt.setString(6, item.getAddr());
+			pstmt.setInt(7, item.getEmpNo());
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

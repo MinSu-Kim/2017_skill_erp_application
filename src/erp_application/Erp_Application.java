@@ -31,8 +31,6 @@ public class Erp_Application extends JFrame implements ActionListener {
 	private AbstractList titleList;
 	private JMenuItem mntmBackup;
 	private JMenuItem mntmExit;
-	private JMenu mnNewMenu;
-	private JMenuItem mntmNewMenuItem;
 	private StateChartPanel chartPanel;
 
 	public static void main(String[] args) {
@@ -56,7 +54,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnManagement = new JMenu("관리");
+		JMenu mnManagement = new JMenu("ERP 관리");
 		menuBar.add(mnManagement);
 		
 		mntmResore = new JMenuItem("복원");
@@ -71,12 +69,6 @@ public class Erp_Application extends JFrame implements ActionListener {
 		mntmExit.addActionListener(this);
 		mnManagement.add(mntmExit);
 		
-		mnNewMenu = new JMenu("New menu");
-		menuBar.add(mnNewMenu);
-		
-		mntmNewMenuItem = new JMenuItem("New menu item");
-		mntmNewMenuItem.addActionListener(this);
-		mnNewMenu.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(contentPane);
@@ -86,21 +78,18 @@ public class Erp_Application extends JFrame implements ActionListener {
 		chartPanel = new StateChartPanel("사원 현황");
 		contentPane.add(chartPanel);
 		
-		empList = new EmployeeList("사원관리");
+		empList = new EmployeeList("사원관리", this);
 		contentPane.add(empList);
 		
-		deptList = new DepartmentList("부서관리");
+		deptList = new DepartmentList("부서관리", this);
 		contentPane.add(deptList);
 		
-		titleList = new TitleList("직책관리");
+		titleList = new TitleList("직책관리", this);
 		contentPane.add(titleList);
 		
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == mntmNewMenuItem) {
-			actionPerformedMntmNewMenuItem(e);
-		}
 		if (e.getSource() == mntmExit) {
 			actionPerformedMntmExit(e);
 		}
@@ -134,7 +123,10 @@ public class Erp_Application extends JFrame implements ActionListener {
 		System.exit(0);
 	}
 	
-	protected void actionPerformedMntmNewMenuItem(ActionEvent e) {
-//		chartPanel.setChartData(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,17,}, 43);
+
+	public void reloadList(){
+		empList.reload();
+		deptList.reload();
+		titleList.reload();
 	}
 }
