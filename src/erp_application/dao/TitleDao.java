@@ -125,5 +125,23 @@ public class TitleDao implements Dao<Title>{
 		}
 		return nextNo;
 	}
+
+	@Override
+	public int rowCnt() {
+		sql = "select count(*) from title";
+		int cnt = -1;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return cnt;
+	}
 	
 }

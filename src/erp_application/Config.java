@@ -9,9 +9,6 @@ public class Config {
 	
 	public static final String CONFIT_RESOURCE_PATH ="resources/config-jdbc.properties";
 	
-
-	
-	
 	public static final String[] TABLE_NAME = {"title", "department","employee","post"};
 	public static final String[] EXPORT_TABLE_NAME = {"title", "department","employee"};
 	

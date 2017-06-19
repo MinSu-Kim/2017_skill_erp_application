@@ -69,9 +69,7 @@ public abstract class AbstractList extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals("추가")){
 				insertItem();
-				
 			}
-			
 			if (e.getActionCommand().equals("수정")){
 				updateItem();
 			}
@@ -94,6 +92,7 @@ public abstract class AbstractList extends JPanel{
 	public void reload() {
 		table.setModel(new DefaultTableModel(getRows(), getColumns()));
 		table.revalidate();
+		table.clearSelection();
 		reAlign();
 		reSize();
 	}

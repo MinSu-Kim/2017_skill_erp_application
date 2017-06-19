@@ -29,7 +29,7 @@ public class StateChartPanel extends JPanel {
 	}
 
 	
-	public void setDeptChart(boolean isDept, String[] names, int[] empCnts, int totalCnt){
+	public void setDeptChart(/*boolean isDept, String[] names, int[] empCnts, int totalCnt*/){
 		if (isDept){
 			deptChartPanel.setChartData(names, empCnts, totalCnt);
 		}else{

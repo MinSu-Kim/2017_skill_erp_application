@@ -132,4 +132,40 @@ public class DepartmentDao implements Dao<Department>{
 		return nextNo;
 	}
 	
+
+	@Override
+	public int rowCnt() {
+		sql = "select count(*) from Department";
+		int cnt = -1;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return cnt;
+	}
+	
+	
+	public String[] getDeptNames(){
+		String[] names = new String[rowCnt()];
+		sql = "select deptname from department";
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			for(int i=0; i<names.length; i++){
+				names[i]=rs.getString("deptname");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt);
+		}
+		return names;
+	}
 }

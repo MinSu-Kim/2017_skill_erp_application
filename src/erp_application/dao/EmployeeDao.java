@@ -130,4 +130,22 @@ public class EmployeeDao implements Dao<Employee> {
 		}
 	}
 
+	@Override
+	public int rowCnt() {
+		sql = "select count(*) from employee";
+		int cnt = -1;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return cnt;
+	}
+
 }
