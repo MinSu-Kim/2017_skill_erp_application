@@ -4,10 +4,10 @@ public class Employee {
 	private int empNo;
 	private String empName;
 	private Title title;
-	private Employee manager;
 	private int salary;
 	private Department dept;
-	private EmployeeDetail detail;
+	private String post;
+	private String addr;
 	
 	public Employee() {}
 	
@@ -15,25 +15,14 @@ public class Employee {
 		this.empNo = empNo;
 	}
 
-	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept) {
+	public Employee(int empNo, String empName, Title title, int salary, Department dept, String post, String addr) {
 		this.empNo = empNo;
 		this.empName = empName;
 		this.title = title;
-		this.manager = manager;
 		this.salary = salary;
 		this.dept = dept;
-	}
-
-	public Employee(int empNo, String empName, Title title, Employee manager, int salary, Department dept,
-			EmployeeDetail detail) {
-		super();
-		this.empNo = empNo;
-		this.empName = empName;
-		this.title = title;
-		this.manager = manager;
-		this.salary = salary;
-		this.dept = dept;
-		this.detail = detail;
+		this.addr = addr;
+		this.post = post;
 	}
 
 	public int getEmpNo() {
@@ -51,15 +40,6 @@ public class Employee {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-
-	public Employee getManager() {
-		return manager;
-	}
-
-	public void setManager(Employee manager) {
-		this.manager = manager;
-	}
-
 
 	public int getSalary() {
 		return salary;
@@ -85,13 +65,20 @@ public class Employee {
 		this.dept = dept;
 	}
 
-	
-	public EmployeeDetail getDetail() {
-		return detail;
+	public String getPost() {
+		return post;
 	}
 
-	public void setDetail(EmployeeDetail detail) {
-		this.detail = detail;
+	public void setPost(String post) {
+		this.post = post;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 
 	@Override
@@ -100,7 +87,9 @@ public class Employee {
 	}
 	
 	public String[] toArray(){
-		return new String[]{empNo+"", empName, title.getTitle(), manager.getEmpNo()+"", String.format("%,d",salary), dept.getDeptName()};
+		//"사원번호", "사원명", "직책", "급여", "부서", "주소", "세부 주소"
+	
+		return new String[]{empNo+"", empName, title.getTitle(), String.format("%,d",salary), dept.getDeptName(), addr};
 	}
 	
 }

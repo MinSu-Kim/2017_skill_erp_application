@@ -2,27 +2,24 @@ package erp_application;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import erp_application.jdbc.ExportSettingService;
+import erp_application.jdbc.ImportSettingService;
 import erp_application.view.list.AbstractList;
 import erp_application.view.list.DepartmentList;
 import erp_application.view.list.EmployeeList;
 import erp_application.view.list.TitleList;
-import erp_application.view.panel.ChartPanel;
 import erp_application.view.panel.StateChartPanel;
-import erp_application.jdbc.ImportSettingService;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Erp_Application extends JFrame implements ActionListener {
@@ -54,7 +51,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 	public Erp_Application() {
 		setTitle("Erp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 700);
+		setBounds(100, 100, 1200, 700);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -114,6 +111,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 			actionPerformedMntmResore(e);
 		}
 	}
+	
 	protected void actionPerformedMntmResore(ActionEvent e) {
 		ImportSettingService importSettingService = new ImportSettingService();
 		importSettingService.initSetting();
