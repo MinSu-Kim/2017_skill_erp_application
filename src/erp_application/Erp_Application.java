@@ -104,17 +104,21 @@ public class Erp_Application extends JFrame implements ActionListener {
 	protected void actionPerformedMntmResore(ActionEvent e) {
 		ImportSettingService importSettingService = new ImportSettingService();
 		importSettingService.initSetting();
+		reload();
+		JOptionPane.showMessageDialog(null, "복원 완료~!");
+	}
+
+	private void reload() {
 		empList.reload();
 		deptList.reload();
 		titleList.reload();
-		JOptionPane.showMessageDialog(null, "복원 완료~!");
+		chartPanel.setDeptChart(true);
+		chartPanel.setDeptChart(false);
 	}
+	
 	protected void actionPerformedMntmBackup(ActionEvent e) {
 		ExportSettingService exportSettingService = new ExportSettingService();
 		exportSettingService.initSetting();
-		empList.reload();
-		deptList.reload();
-		titleList.reload();
 		JOptionPane.showMessageDialog(null, "백업 완료~!");
 	}
 	
@@ -125,10 +129,6 @@ public class Erp_Application extends JFrame implements ActionListener {
 	
 
 	public void reloadList(){
-		empList.reload();
-		deptList.reload();
-		titleList.reload();
-		chartPanel.setDeptChart(true);
-		chartPanel.setDeptChart(false);
+		reload();
 	}
 }

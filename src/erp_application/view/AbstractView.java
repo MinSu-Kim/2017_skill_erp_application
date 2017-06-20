@@ -64,7 +64,8 @@ public abstract class AbstractView<T> extends JFrame implements ActionListener {
 	protected abstract void btnUpdateActionPerformed();
 	
 	protected void btnCancelActionPerformed(){
-		pMain.clearObject();
+		dispose();
+		main.reloadList();
 	}
 	
 	protected abstract void btnAddActionPerformed();
