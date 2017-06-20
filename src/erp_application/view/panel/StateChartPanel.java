@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
+import erp_application.dao.ChartDao;
+import erp_application.dto.Chart;
+
 @SuppressWarnings("serial")
 public class StateChartPanel extends JPanel {
 
@@ -26,14 +29,20 @@ public class StateChartPanel extends JPanel {
 		
 		titleChartPanel = new ChartPanel(new String[]{"사장","부장", "과장", "대리", "사원"}, new int[]{1,2,3,4,10}, 20);
 		tabbedPane.addTab("직책별 사원 인원", null, titleChartPanel, null);
+		
+		setDeptChart(true);
+		setDeptChart(false);
 	}
 
 	
-	public void setDeptChart(/*boolean isDept, String[] names, int[] empCnts, int totalCnt*/){
+	public void setDeptChart(boolean isDept){
+		
 		if (isDept){
-			deptChartPanel.setChartData(names, empCnts, totalCnt);
+			Chart chart = ChartDao.getInstance().selectByChartDatas(isDept);
+			deptChartPanel.setChartData(chart.getNames(), chart.getEmpCnts(), chart.getTotalCnt());
 		}else{
-			titleChartPanel.setChartData(names, empCnts, totalCnt);
+			Chart chart = ChartDao.getInstance().selectByChartDatas(isDept);
+			titleChartPanel.setChartData(chart.getNames(), chart.getEmpCnts(), chart.getTotalCnt());
 		}
 	}
 

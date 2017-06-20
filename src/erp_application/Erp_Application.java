@@ -128,5 +128,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 		empList.reload();
 		deptList.reload();
 		titleList.reload();
+		chartPanel.setDeptChart(true);
+		chartPanel.setDeptChart(false);
 	}
 }

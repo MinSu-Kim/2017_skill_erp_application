@@ -71,6 +71,43 @@ public class EmployeeDao implements Dao<Employee> {
 		return res;
 	}
 
+	public int selectEmployeeByDepartment(Department dept){
+		sql = "select count(*) from employee where dno=?";
+		int cnt=0;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, dept.getDeptNo());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt);
+		}
+		return cnt;
+	}
+	
+	public int selectEmployeeByTitle(Title title){
+		sql = "select count(*) from employee where title=?";
+		int cnt=0;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, title.getNo());
+			System.out.println(pstmt);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				cnt = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt);
+		}
+		return cnt;
+	}
+	
 	@Override
 	public Employee selectByItem(int idx) {
 		Employee emp = null;

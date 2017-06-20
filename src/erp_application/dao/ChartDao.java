@@ -1,32 +1,20 @@
 package erp_application.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import erp_application.dto.Chart;
 import erp_application.dto.Department;
-import erp_application.jdbc.DBCon;
-import erp_application.jdbc.JdbcUtil;
+import erp_application.dto.Title;
 
 public class ChartDao {
-	private PreparedStatement pstmt;
-	private ResultSet rs;
-	private String sql;
-	
+
 	private static final ChartDao instance = new ChartDao();
 	
 	private ChartDao(){}
 	
 	public static ChartDao getInstance() {
 		return instance;
-	}
-
-
-	private Department getDepartment(ResultSet rs) throws SQLException {
-		return new Department(rs.getInt("deptno"), rs.getString("deptname"), rs.getInt("floor"));
 	}
 
 	public Chart selectByChartDatas(boolean isDept) {
@@ -37,54 +25,62 @@ public class ChartDao {
 		}
 	}
 
-/*	private String[] names;	//부서명, 직책명
-	private int [] empCnts;	//부서별 인원수, 직책별 인원수
-	private int totalCnt;	//총인원수
-*/	
+	private Chart getTitleChartData() {
+		int totalCnt = EmployeeDao.getInstance().rowCnt();//총 인원수
+		List<Title> titles = TitleDao.getInstance().selectByAllItems();
+		String[] names = new String[titles.size()]; //부서명
+		for(int i=0; i<names.length; i++){
+			names[i] = titles.get(i).getTitle();
+		}
+		
+		int [] empCnts = getCountByTitle(titles);//직책별 인원수
+		System.out.println(Arrays.toString(empCnts));
+		
+		Chart chart = new Chart();
+		chart.setNames(names);
+		chart.setEmpCnts(empCnts);
+		chart.setTotalCnt(totalCnt);
+		return chart;
+	}
+
+	private int[] getCountByTitle(List<Title> titles) {
+		int [] empCnts = new int[titles.size()];
+		for(int i=0; i<empCnts.length; i++){
+			empCnts[i]=EmployeeDao.getInstance().selectEmployeeByTitle(titles.get(i));
+			System.out.println(empCnts[i]);
+		}
+		return empCnts;
+	}
 
 	private Chart getDeptChartData() {
-		int titalCnt = DepartmentDao.getInstance().rowCnt();
-		String[] names = DepartmentDao.getInstance().getDeptNames();
-		int [] empCnts = new int[names.length];
-		//부서별 인원수 (Employee)
-		//직책별 인원수 (Employee);
-		
-		List<Department> depts = new ArrayList<Department>();
-		sql = "select deptname from department";
-
-		try {
-			pstmt = DBCon.getConnection().prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while (rs.next()){
-				rs.getString("deptname");
-				depts.add(getDepartment(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(rs, pstmt);
+		List<Department> depts= DepartmentDao.getInstance().selectByAllItems();
+		String[] names = new String[depts.size()]; //부서명
+		for(int i=0; i<names.length; i++){
+			names[i] = depts.get(i).getDeptName();
 		}
-		return null;
+		 
+		int [] empCnts = getCountByDepartment(depts);//부서별 인원수
+		
+		int totalCnt = EmployeeDao.getInstance().rowCnt();//총 인원수
+		
+		Chart chart = new Chart();
+		chart.setNames(names);
+		chart.setEmpCnts(empCnts);
+		chart.setTotalCnt(totalCnt);
+		return chart;
 	}
 	
-	private Chart getTitleChartData() {
-		List<Department> depts = new ArrayList<Department>();
-		sql = "select deptno, deptname, floor from department";
 
-		try {
-			pstmt = DBCon.getConnection().prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while (rs.next()){
-				depts.add(getDepartment(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(rs, pstmt);
+
+	private int[] getCountByDepartment(List<Department> depts) {
+		int [] empCnts = new int[depts.size()];
+		for(int i=0; i<empCnts.length; i++){
+			empCnts[i]=EmployeeDao.getInstance().selectEmployeeByDepartment(depts.get(i));
 		}
-		
-		return null;
+		return empCnts;
 	}
+
+
 
 
 	
