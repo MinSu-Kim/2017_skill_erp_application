@@ -8,6 +8,7 @@ public class Employee {
 	private Department dept;
 	private String post;
 	private String addr;
+	private byte[] pic;
 	
 	public Employee() {}
 	
@@ -15,14 +16,17 @@ public class Employee {
 		this.empNo = empNo;
 	}
 
-	public Employee(int empNo, String empName, Title title, int salary, Department dept, String post, String addr) {
+	public Employee(int empNo, String empName, Title title, int salary, Department dept, String post, String addr,
+			byte[] pic) {
+		super();
 		this.empNo = empNo;
 		this.empName = empName;
 		this.title = title;
 		this.salary = salary;
 		this.dept = dept;
-		this.addr = addr;
 		this.post = post;
+		this.addr = addr;
+		this.pic = pic;
 	}
 
 	public int getEmpNo() {
@@ -79,6 +83,15 @@ public class Employee {
 
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+
+	
+	public byte[] getPic() {
+		return pic;
+	}
+
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 
 	@Override

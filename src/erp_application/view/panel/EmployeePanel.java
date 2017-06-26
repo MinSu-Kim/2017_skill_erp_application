@@ -1,14 +1,23 @@
 package erp_application.view.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,7 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import erp_application.Config;
 import erp_application.dao.DepartmentDao;
 import erp_application.dao.EmployeeDao;
 import erp_application.dao.PostDao;
@@ -38,7 +49,10 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	private JTextField tfPost;
 	private JButton btnPost;
 	private JPanel pMain;
-
+	private JLabel lblPic;
+	private JButton btnPic;
+	private String picPath;
+	
 	public EmployeePanel() {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new BorderLayout(0, 0));
@@ -119,6 +133,23 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		tfAddr = new JTextField();
 		pMain.add(tfAddr);
 		tfAddr.setColumns(10);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.WEST);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		
+		JPanel pPic = new JPanel();
+		panel.add(pPic);
+		pPic.setLayout(new BoxLayout(pPic, BoxLayout.Y_AXIS));
+		
+		lblPic = new JLabel("");
+		lblPic.setIcon(new ImageIcon(new ImageIcon(Config.IMPORT_DIR+ "\\img\\seohyunjin.jpg").getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
+		pPic.add(lblPic);
+		
+		btnPic = new JButton("사진 추가");
+		btnPic.addActionListener(this);
+		btnPic.setMaximumSize(new Dimension(120, 27));
+		pPic.add(btnPic);
 
 		List<Title> titleList = TitleDao.getInstance().selectByAllItems();
 		for (Title title : titleList) {
@@ -151,6 +182,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		cmbDno.setSelectedIndex(0);
 		tfAddr.setText("");
 		tfPost.setText("");
+		lblPic.setIcon(null);
 	}
 
 	@Override
@@ -164,9 +196,9 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		Department dept = (Department) cmbDno.getSelectedItem();
 		String addr = tfAddr.getText().trim();
 		String post = tfPost.getText().trim();
-
+		byte[] pic = getImage();
 		//"사원번호", "사원명", "직책", "급여", "부서", "우편번호", "주소", "세부 주소"
-		return new Employee(empNo, empName, title, salary, dept, post, addr);
+		return new Employee(empNo, empName, title, salary, dept, post, addr, pic);
 	}
 
 	@Override
@@ -178,8 +210,29 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		cmbDno.setSelectedItem(obj.getDept());
 		tfPost.setText(obj.getPost());
 		tfAddr.setText(obj.getAddr());
+		if (obj.getPic()!=null){
+			lblPic.setIcon(new ImageIcon(new ImageIcon(obj.getPic()).getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
+		}else{
+			lblPic.setIcon(null);
+		}
 	}
 
+	private byte[] getImage() {
+		byte[] pic = null;
+		File file = new File(picPath);
+		try {
+			InputStream is = new FileInputStream(file);
+			pic = new byte[is.available()];
+			is.read(pic);
+			is.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return pic;
+	}
+	
 	@Override
 	public String nextNo() {
 		return String.format("E%04d",EmployeeDao.getInstance().selectNextNo()+1);
@@ -192,6 +245,9 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnPic) {
+			actionPerformedBtnPic(e);
+		}
 		if (e.getSource() == btnPost) {
 			btnPostActionPerformed(e);
 		}
@@ -204,5 +260,19 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		tfPost.setText(searchAddr.getZipCode());
 		tfAddr.setText(searchAddr.toString());
 		tfAddr.requestFocus();
+	}
+	
+	protected void actionPerformedBtnPic(ActionEvent e) {
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif", "png");
+		chooser.setFileFilter(filter);
+		chooser.setCurrentDirectory(new File(Config.IMPORT_DIR));
+		int ret = chooser.showOpenDialog(null);
+		if (ret != JFileChooser.APPROVE_OPTION) {
+			JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다", "경고", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		picPath = chooser.getSelectedFile().getPath();
+		lblPic.setIcon(new ImageIcon(new ImageIcon(picPath).getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
 	}
 }

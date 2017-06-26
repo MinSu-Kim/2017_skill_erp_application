@@ -30,7 +30,7 @@ public class EmployeeDao implements Dao<Employee> {
 	public int insertItem(Employee item) throws SQLException {		
 		int res = -1;
 		try {
-			sql = "insert into Employee values(?, ?, ?, ?, ?, ?, ?)";
+			sql = "insert into Employee values(?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, item.getEmpNo());
 			pstmt.setString(2, item.getEmpName());
@@ -39,6 +39,7 @@ public class EmployeeDao implements Dao<Employee> {
 			pstmt.setInt(5, item.getDept().getDeptNo());
 			pstmt.setString(6, item.getPost());
 			pstmt.setString(7, item.getAddr());
+			pstmt.setBytes(8, item.getPic());
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,7 +52,7 @@ public class EmployeeDao implements Dao<Employee> {
 
 	@Override
 	public int updateItem(Employee item) {
-		sql = "update employee set empname = ?, title = ?, salary = ?, dno = ?, post=?, address=? where empno=?";
+		sql = "update employee set empname = ?, title = ?, salary = ?, dno = ?, post=?, address=?, pic=? where empno=?";
 		int res = -1;
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
@@ -61,7 +62,8 @@ public class EmployeeDao implements Dao<Employee> {
 			pstmt.setInt(4, item.getDept().getDeptNo());
 			pstmt.setString(5, item.getPost());
 			pstmt.setString(6, item.getAddr());
-			pstmt.setInt(7, item.getEmpNo());
+			pstmt.setBytes(7, item.getPic());
+			pstmt.setInt(8, item.getEmpNo());
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,7 +113,7 @@ public class EmployeeDao implements Dao<Employee> {
 	@Override
 	public Employee selectByItem(int idx) {
 		Employee emp = null;
-		sql = "select empno, empname, title, salary, dno, post, address from employee where empno = ?";
+		sql = "select empno, empname, title, salary, dno, post, address, pic from employee where empno = ?";
 
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
@@ -131,7 +133,7 @@ public class EmployeeDao implements Dao<Employee> {
 	@Override
 	public List<Employee> selectByAllItems() {
 		List<Employee> emps = new ArrayList<Employee>();
-		sql = "select empno, empname, title, salary, dno, post, address from employee";
+		sql = "select empno, empname, title, salary, dno, post, address, pic from employee";
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -150,7 +152,7 @@ public class EmployeeDao implements Dao<Employee> {
 		//사원번호", "사원명", "직책", "급여", "부서", "우편번호", "주소", "세부 주소"
 		Title title = TitleDao.getInstance().selectByItem(rs.getInt("title"));
 		Department dept = DepartmentDao.getInstance().selectByItem(rs.getInt("dno"));
-		return new Employee(rs.getInt("empno"), rs.getString("empname"), title, rs.getInt("salary"), dept, rs.getString("post"), rs.getString("address"));
+		return new Employee(rs.getInt("empno"), rs.getString("empname"), title, rs.getInt("salary"), dept, rs.getString("post"), rs.getString("address"),rs.getBytes("pic"));
 	}
 
 	@Override
