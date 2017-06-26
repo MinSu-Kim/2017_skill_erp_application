@@ -68,7 +68,7 @@ public class TitleList extends AbstractList {
 	@Override
 	protected void insertItem() {
 		TitleView titleView = new TitleView("직책 추가", true, main);
-		titleView.setVisible(true);				
+		main.replacePanel(titleView);				
 	}
 
 }

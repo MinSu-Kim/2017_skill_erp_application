@@ -1,18 +1,20 @@
 package erp_application.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import erp_application.Erp_Application;
 import erp_application.view.panel.AbstractMainPanel;
 
 @SuppressWarnings("serial")
-public abstract class AbstractView<T> extends JFrame implements ActionListener {
+public abstract class AbstractView<T> extends JPanel implements ActionListener {
 
 	protected JButton btnAdd;
 	private JButton btnCancel;
@@ -20,7 +22,7 @@ public abstract class AbstractView<T> extends JFrame implements ActionListener {
 	protected Erp_Application main;
 	
 	public AbstractView(String title, boolean isAdd, Erp_Application main) {
-		setTitle(title);
+		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		this.main = main;
 		setLayout(new BorderLayout(0, 0));
 		
@@ -64,7 +66,7 @@ public abstract class AbstractView<T> extends JFrame implements ActionListener {
 	protected abstract void btnUpdateActionPerformed();
 	
 	protected void btnCancelActionPerformed(){
-		dispose();
+//		dispose();
 		main.reloadList();
 	}
 	

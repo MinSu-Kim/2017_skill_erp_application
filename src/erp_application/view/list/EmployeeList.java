@@ -61,7 +61,7 @@ public class EmployeeList extends AbstractList {
 	@Override
 	protected void insertItem() {
 		EmployeeView empView = new EmployeeView("사원 추가", true, main);
-		empView.setVisible(true);
+		main.replacePanel(empView);
 	}
 
 	@Override

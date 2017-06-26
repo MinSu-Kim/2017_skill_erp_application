@@ -1,5 +1,6 @@
 package erp_application;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import erp_application.jdbc.ExportSettingService;
 import erp_application.jdbc.ImportSettingService;
+import erp_application.view.AbstractView;
 import erp_application.view.list.AbstractList;
 import erp_application.view.list.DepartmentList;
 import erp_application.view.list.EmployeeList;
@@ -32,6 +34,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 	private JMenuItem mntmBackup;
 	private JMenuItem mntmExit;
 	private StateChartPanel chartPanel;
+	private JPanel inputPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -81,11 +84,15 @@ public class Erp_Application extends JFrame implements ActionListener {
 		empList = new EmployeeList("사원관리", this);
 		contentPane.add(empList);
 		
-		deptList = new DepartmentList("부서관리", this);
-		contentPane.add(deptList);
+		inputPanel = new JPanel(new BorderLayout());
+		contentPane.add(inputPanel);
 		
+		JPanel etc = new JPanel(new GridLayout(0, 2));
+		deptList = new DepartmentList("부서관리", this);
+		etc.add(deptList);
 		titleList = new TitleList("직책관리", this);
-		contentPane.add(titleList);
+		etc.add(titleList);
+		contentPane.add(etc);
 		
 	}
 
@@ -99,6 +106,12 @@ public class Erp_Application extends JFrame implements ActionListener {
 		if (e.getSource() == mntmResore) {
 			actionPerformedMntmResore(e);
 		}
+	}
+	
+	public void replacePanel(AbstractView view){
+		inputPanel.removeAll();
+		inputPanel.add(view, BorderLayout.CENTER);
+		revalidate();
 	}
 	
 	protected void actionPerformedMntmResore(ActionEvent e) {

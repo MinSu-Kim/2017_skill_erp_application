@@ -34,7 +34,7 @@ public class EmployeeView extends AbstractView<Employee> {
 			Employee updateEmp = pMain.getObject();
 			EmployeeDao.getInstance().updateItem(updateEmp);
 			JOptionPane.showMessageDialog(null, "수정 되었습니다.");
-			dispose();
+//			dispose();
 			main.reloadList();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -47,7 +47,7 @@ public class EmployeeView extends AbstractView<Employee> {
 			Employee addEmp = pMain.getObject();
 			EmployeeDao.getInstance().insertItem(addEmp);
 			JOptionPane.showMessageDialog(null, "추가 되었습니다.");
-			dispose();
+//			dispose();
 			main.reloadList();
 		} catch (SQLException e) {
 			e.printStackTrace();

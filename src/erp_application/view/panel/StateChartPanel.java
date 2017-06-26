@@ -21,14 +21,9 @@ public class StateChartPanel extends JPanel {
 		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		
-/*		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.CENTER);
-		add(tabbedPane, BorderLayout.CENTER);*/
-		
 		deptChartPanel = new ChartPanel(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,7}, 33, "부서별 인원");
 		titleChartPanel = new ChartPanel(new String[]{"사장","부장", "과장", "대리", "사원"}, new int[]{1,2,3,4,10}, 20, "직책별 인원");
 		
-/*		tabbedPane.addTab("부서별 사원 인원", null, deptChartPanel, null);
-		tabbedPane.addTab("직책별 사원 인원", null, titleChartPanel, null);*/
 		add(deptChartPanel);
 		add(titleChartPanel);
 		setDeptChart(true);

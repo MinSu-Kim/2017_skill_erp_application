@@ -70,6 +70,6 @@ public class DepartmentList extends AbstractList {
 	@Override
 	protected void insertItem() {
 		DepartmentView deptView = new DepartmentView("부서 추가", true, main);
-		deptView.setVisible(true);		
+		main.replacePanel(deptView);	
 	}
 }

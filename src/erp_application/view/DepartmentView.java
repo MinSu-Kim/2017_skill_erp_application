@@ -21,7 +21,7 @@ public class DepartmentView extends AbstractView<Department> {
 			Department addDept = pMain.getObject();
 			DepartmentDao.getInstance().insertItem(addDept);
 			JOptionPane.showMessageDialog(null, "추가 되었습니다.");
-			dispose();
+//			dispose();
 			main.reloadList();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -44,7 +44,7 @@ public class DepartmentView extends AbstractView<Department> {
 			Department updateDept = pMain.getObject();
 			DepartmentDao.getInstance().updateItem(updateDept);
 			JOptionPane.showMessageDialog(null, "수정 되었습니다.");
-			dispose();
+//			dispose();
 			main.reloadList();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
