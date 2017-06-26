@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.Random;
 
 import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class ChartPanel extends JLabel {
@@ -16,7 +17,8 @@ public class ChartPanel extends JLabel {
 	private int totalCnt;			//총인원수
 	private Color textColor = new Color(0,0,0);
 	
-	public ChartPanel(String[] names, int[] empCnts, int totalCnt) {
+	public ChartPanel(String[] names, int[] empCnts, int totalCnt, String title) {
+		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		this.names = names;
 		this.empCnts = empCnts;
 		this.pieColor = new Color[names.length];
@@ -52,13 +54,13 @@ public class ChartPanel extends JLabel {
 			int startAngle = 0;
 			for(int i=0; i<empCnts.length; i++) {
 				g.setColor(pieColor[i]);
-				g.fillRect(380, 30+i*20, 10, 10);
+				g.fillRect(180, 30+i*20, 10, 10);
 				g.setColor(textColor);
-				g.drawString(names[i] + " " + empCnts[i]+" 명", 400, 40+i*20);
+				g.drawString(names[i] + " " + empCnts[i]+" 명", 200, 40+i*20);
 			}
 			for(int i=0; i<empCnts.length; i++) {
 				g.setColor(pieColor[i]);
-				g.fillArc(140,20,200,200,startAngle, arcAngle[i]);
+				g.fillArc(20,20,150,150,startAngle, arcAngle[i]);
 				startAngle = startAngle + arcAngle[i];
 			}
 		}
