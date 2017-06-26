@@ -38,13 +38,13 @@ public class TitlePanel extends AbstractMainPanel<Title>{
 
 	@Override
 	public void clearObject() {
-		tfNo.setText(nextNo());
+		tfNo.setText(String.format("T%03d", nextNo()));
 		tfTitle.setText("");		
 	}
 
 	@Override
 	public Title getObject() throws Exception {
-		int no = Integer.parseInt(tfNo.getText());
+		int no = Integer.parseInt(tfNo.getText().substring(1));
 		String title = tfTitle.getText().trim();
 		if (title.matches("[0-9]*")){
 			throw new Exception("숫자는 불가능 합니다.");
@@ -54,7 +54,7 @@ public class TitlePanel extends AbstractMainPanel<Title>{
 
 	@Override
 	public String nextNo() {
-		return String.valueOf(TitleDao.getInstance().selectNextNo()+1);
+		return String.format("T%03d", TitleDao.getInstance().selectNextNo()+1);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class TitlePanel extends AbstractMainPanel<Title>{
 
 	@Override
 	public void setObject(Title item) {
-		tfNo.setText(item.getNo()+"");
+		tfNo.setText(String.format("T%03d", item.getNo()));
 		tfTitle.setText(item.getTitle());			
 	}
 

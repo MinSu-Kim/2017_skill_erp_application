@@ -47,7 +47,8 @@ public class EmployeeList extends AbstractList {
 	@Override
 	public Object getSelectedData() {
 		String eno = arDatas[selectedIdx][0].toString();
-		return EmployeeDao.getInstance().selectByItem(Integer.parseInt(eno));
+		int empNo = Integer.parseInt(eno.substring(1));
+		return EmployeeDao.getInstance().selectByItem(empNo);
 	}
 
 	@Override
@@ -55,13 +56,15 @@ public class EmployeeList extends AbstractList {
 		Object selectItem  = getSelectedData();
 		EmployeeView empView = new EmployeeView("사원 수정", false, main);
 		empView.setObject((Employee)selectItem);
-		empView.setVisible(true);
+		main.replacePanel(empView);
+		
 	}
 
 	@Override
 	protected void insertItem() {
 		EmployeeView empView = new EmployeeView("사원 추가", true, main);
 		main.replacePanel(empView);
+		table.clearSelection();
 	}
 
 	@Override

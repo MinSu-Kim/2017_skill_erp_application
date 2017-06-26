@@ -45,8 +45,9 @@ public class TitleList extends AbstractList {
 
 	@Override
 	public Object getSelectedData() {
-		String tno = arDatas[selectedIdx][0].toString();
-		return TitleDao.getInstance().selectByItem(Integer.parseInt(tno));
+		String strTno = arDatas[selectedIdx][0].toString();
+		int tno = Integer.parseInt(strTno.substring(1));
+		return TitleDao.getInstance().selectByItem(tno);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class TitleList extends AbstractList {
 		Title selectItem  = (Title)getSelectedData();
 		TitleView titleView = new TitleView("직책 수정", false, main);
 		titleView.setObject(selectItem);
-		titleView.setVisible(true);				
+		main.replacePanel(titleView);				
 	}
 
 	@Override
@@ -68,7 +69,8 @@ public class TitleList extends AbstractList {
 	@Override
 	protected void insertItem() {
 		TitleView titleView = new TitleView("직책 추가", true, main);
-		main.replacePanel(titleView);				
+		main.replacePanel(titleView);
+		table.clearSelection();
 	}
 
 }

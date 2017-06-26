@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -55,22 +55,29 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 			btnCancelActionPerformed();
 		}
 		if (e.getSource() == btnAdd) {
-			if (e.getActionCommand().equals("추가")){
-				btnAddActionPerformed();
-			}else{
-				btnUpdateActionPerformed();
+			try {
+				if (e.getActionCommand().equals("추가")){
+					btnAddActionPerformed();
+				}else{
+					btnUpdateActionPerformed();
+				}
+				JOptionPane.showMessageDialog(null, e.getActionCommand() + " 되었습니다.");
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage());
+				pMain.setSelectedTitle();
 			}
+			pMain.clearObject();
+			main.reloadList();
 		}
 	}
 	
-	protected abstract void btnUpdateActionPerformed();
+	protected abstract void btnUpdateActionPerformed() throws Exception;
+	protected abstract void btnAddActionPerformed() throws Exception;
 	
 	protected void btnCancelActionPerformed(){
-//		dispose();
-		main.reloadList();
+		setVisible(false);
+		reloadList();
 	}
-	
-	protected abstract void btnAddActionPerformed();
 	
 	protected void reloadList(){
 		main.reloadList();

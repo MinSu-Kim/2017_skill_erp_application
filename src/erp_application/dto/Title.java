@@ -46,7 +46,7 @@ public class Title {
 	}
 	
 	public String[] toArray(){
-		return new String[]{no+"", title};
+		return new String[]{String.format("T%03d", no), title};
 	}
 	
 }

@@ -47,8 +47,9 @@ public class DepartmentList extends AbstractList {
 
 	@Override
 	public Object getSelectedData() {
-		String dno = arDatas[selectedIdx][0].toString();
-		return DepartmentDao.getInstance().selectByItem(Integer.parseInt(dno));
+		String strDno = arDatas[selectedIdx][0].toString();
+		int dno = Integer.parseInt(strDno.substring(1));
+		return DepartmentDao.getInstance().selectByItem(dno);
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class DepartmentList extends AbstractList {
 		Department selectItem  = (Department)getSelectedData();
 		DepartmentView deptView = new DepartmentView("부서 수정", false, main);
 		deptView.setObject(selectItem);
-		deptView.setVisible(true);		
+		main.replacePanel(deptView);		
 	}
 
 	@Override
@@ -70,6 +71,7 @@ public class DepartmentList extends AbstractList {
 	@Override
 	protected void insertItem() {
 		DepartmentView deptView = new DepartmentView("부서 추가", true, main);
-		main.replacePanel(deptView);	
+		main.replacePanel(deptView);
+		table.clearSelection();
 	}
 }

@@ -124,7 +124,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public void clearObject() {
-		tfNo.setText(nextNo());
+		tfNo.setText(String.format("E%06d", nextNo()));
 		tfName.setText("");
 		cmbTitle.setSelectedIndex(0);
 		tfSalary.setText("");
@@ -135,7 +135,8 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public Employee getObject() throws Exception {
-		int empNo = Integer.parseInt(tfNo.getText());
+		String strEmpNo = tfNo.getText();
+		int empNo = Integer.parseInt(strEmpNo.substring(1));
 		String empName = tfName.getText().trim();
 		Title title = (Title) cmbTitle.getSelectedItem();
 		int salary = Integer.parseInt(tfSalary.getText().trim());
@@ -149,7 +150,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public void setObject(Employee obj) {
-		tfNo.setText(obj.getEmpNo() + "");
+		tfNo.setText(String.format("E%06d", obj.getEmpNo()));
 		tfName.setText(obj.getEmpName());
 		cmbTitle.setSelectedItem(obj.getTitle());
 		tfSalary.setText(obj.getSalary() + "");

@@ -59,14 +59,15 @@ public class DepartmentPanel extends AbstractMainPanel<Department>{
 	
 	@Override
 	public void clearObject() {
-		tfNo.setText(nextNo());
+		tfNo.setText(String.format("D%03d",nextNo()));
 		tfTitle.setText("");
 		tfFloor.setText("");		
 	}
 
 	@Override
 	public Department getObject() throws Exception {
-		int deptNo = Integer.parseInt(tfNo.getText());
+		int deptNo = Integer.parseInt(tfNo.getText().substring(1));
+
 		String deptName = tfTitle.getText().trim();
 		if (deptName.matches("[0-9]*")){
 			throw new Exception("숫자는 불가능 합니다.");
@@ -77,7 +78,7 @@ public class DepartmentPanel extends AbstractMainPanel<Department>{
 
 	@Override
 	public String nextNo() {
-		return String.valueOf(DepartmentDao.getInstance().selectNextNo()+1);
+		return String.format("D%03d",DepartmentDao.getInstance().selectNextNo()+1);
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class DepartmentPanel extends AbstractMainPanel<Department>{
 
 	@Override
 	public void setObject(Department item) {
-		tfNo.setText(item.getDeptNo()+"");
+		tfNo.setText(String.format("D%03d", item.getDeptNo()));
 		tfTitle.setText(item.getDeptName());
 		tfFloor.setText(item.getFloor()+"");			
 	}

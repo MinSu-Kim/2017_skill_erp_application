@@ -108,7 +108,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 		}
 	}
 	
-	public void replacePanel(AbstractView view){
+	public void replacePanel(AbstractView<?> view){
 		inputPanel.removeAll();
 		inputPanel.add(view, BorderLayout.CENTER);
 		revalidate();
@@ -127,6 +127,9 @@ public class Erp_Application extends JFrame implements ActionListener {
 		titleList.reload();
 		chartPanel.setDeptChart(true);
 		chartPanel.setDeptChart(false);
+		
+		inputPanel.removeAll();
+		revalidate();
 	}
 	
 	protected void actionPerformedMntmBackup(ActionEvent e) {
@@ -144,4 +147,5 @@ public class Erp_Application extends JFrame implements ActionListener {
 	public void reloadList(){
 		reload();
 	}
+	
 }
