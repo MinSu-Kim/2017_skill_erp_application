@@ -62,12 +62,12 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 					btnUpdateActionPerformed();
 				}
 				JOptionPane.showMessageDialog(null, e.getActionCommand() + " 되었습니다.");
+				pMain.clearObject();
+				reloadList();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage());
 				pMain.setSelectedTitle();
 			}
-			pMain.clearObject();
-			main.reloadList();
 		}
 	}
 	
@@ -75,11 +75,11 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 	protected abstract void btnAddActionPerformed() throws Exception;
 	
 	protected void btnCancelActionPerformed(){
-		setVisible(false);
 		reloadList();
 	}
 	
 	protected void reloadList(){
+		setVisible(false);
 		main.reloadList();
 	}
 }

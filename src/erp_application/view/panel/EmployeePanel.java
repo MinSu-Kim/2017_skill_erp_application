@@ -12,7 +12,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -29,7 +31,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	private JTextField tfNo;
 	private JTextField tfName;
 	private JComboBox<Title> cmbTitle;
-	private JTextField tfSalary;
+	private JSpinner spinnerSalary;
 	private JComboBox<Department> cmbDno;
 	private JTextField tfAddr;
 	private JTextField tfPost;
@@ -76,9 +78,10 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		lblSalary.setHorizontalAlignment(SwingConstants.RIGHT);
 		pMain.add(lblSalary);
 
-		tfSalary = new JTextField();
-		tfSalary.setColumns(10);
-		pMain.add(tfSalary);
+		spinnerSalary = new JSpinner();
+		spinnerSalary.setModel(new SpinnerNumberModel(new Integer(2000000), new Integer(1500000), new Integer(5000000), new Integer(100000)));
+		
+		pMain.add(spinnerSalary);
 
 		JLabel lblDno = new JLabel("부서");
 		lblDno.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -127,7 +130,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		tfNo.setText(String.format("E%06d", nextNo()));
 		tfName.setText("");
 		cmbTitle.setSelectedIndex(0);
-		tfSalary.setText("");
+		spinnerSalary.setModel(new SpinnerNumberModel(new Integer(2000000), new Integer(1500000), new Integer(5000000), new Integer(100000)));
 		cmbDno.setSelectedIndex(0);
 		tfAddr.setText("");
 		tfPost.setText("");
@@ -139,7 +142,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		int empNo = Integer.parseInt(strEmpNo.substring(1));
 		String empName = tfName.getText().trim();
 		Title title = (Title) cmbTitle.getSelectedItem();
-		int salary = Integer.parseInt(tfSalary.getText().trim());
+		int salary = (int) spinnerSalary.getValue();
 		Department dept = (Department) cmbDno.getSelectedItem();
 		String addr = tfAddr.getText().trim();
 		String post = tfPost.getText().trim();
@@ -153,7 +156,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		tfNo.setText(String.format("E%06d", obj.getEmpNo()));
 		tfName.setText(obj.getEmpName());
 		cmbTitle.setSelectedItem(obj.getTitle());
-		tfSalary.setText(obj.getSalary() + "");
+		spinnerSalary.setModel(new SpinnerNumberModel(Integer.valueOf(obj.getSalary()), new Integer(1500000), new Integer(5000000), new Integer(100000)));
 		cmbDno.setSelectedItem(obj.getDept());
 		tfPost.setText(obj.getPost());
 		tfAddr.setText(obj.getAddr());
@@ -181,7 +184,6 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		List<Address> resList = PostDao.getInstance().selectZipCodeByDoro(doro);
 		Address searchAddr = (Address) JOptionPane.showInputDialog(null, "해당주소 선택", "우편번호 검색",
 				JOptionPane.INFORMATION_MESSAGE, null, resList.toArray(), resList.get(0));
-		// System.out.println(searchAddr);
 		tfPost.setText(searchAddr.getZipCode());
 		tfAddr.setText(searchAddr.toString());
 		tfAddr.requestFocus();
