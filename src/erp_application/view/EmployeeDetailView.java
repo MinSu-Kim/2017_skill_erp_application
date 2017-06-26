@@ -47,12 +47,9 @@ public class EmployeeDetailView extends JPanel implements ActionListener{
 		nextBtn = new JButton(">");
 		nextBtn.addActionListener(this);
 		panel.add(nextBtn);
+		
+		pMain.setObject(lists.get(selectedIdx));
 	}
-
-	public void setObject(Employee emp) {
-		pMain.setObject(emp);
-	}
-	
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nextBtn) {

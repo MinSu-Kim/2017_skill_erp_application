@@ -79,9 +79,7 @@ public class EmployeeList extends AbstractList {
 	
 	@Override
 	protected void detailItem() {
-		Employee selectItem  = (Employee) getSelectedData();
 		EmployeeDetailView empDetailView = new EmployeeDetailView("사원 정보", table, selectedIdx);
-		empDetailView.setObject(selectItem);
 		main.replacePanel(empDetailView);
 	}
 }
