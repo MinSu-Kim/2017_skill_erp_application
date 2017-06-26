@@ -27,6 +27,7 @@ public abstract class AbstractList extends JPanel{
 	protected int selectedIdx;
 	protected String[][] arDatas;
 	protected Erp_Application main;
+	protected boolean isEmpDetail;
 	
 	public AbstractList(String title, Erp_Application main) {
 		this.main = main;
@@ -60,7 +61,15 @@ public abstract class AbstractList extends JPanel{
 		menu.add(add);
 		menu.add(update);
 		menu.add(del);
+		
+		TitledBorder t = (TitledBorder) getBorder();
 
+		if (t.getTitle().equals("사원관리")){
+			JMenuItem detail = new JMenuItem("자세히");
+			detail.addActionListener(menuListener);
+			menu.add(detail);
+		}
+		
 		return menu;
 	}
 
@@ -76,6 +85,9 @@ public abstract class AbstractList extends JPanel{
 			if (e.getActionCommand().equals("삭제")){
 				deleteItem();
 			}	
+			if (e.getActionCommand().equals("자세히")){
+				detailItem();
+			}
 		}
 	};
 	
@@ -96,6 +108,8 @@ public abstract class AbstractList extends JPanel{
 		reAlign();
 		reSize();
 	}
+
+
 
 
 	protected void tableCellAlignment(int align, int... idx) {
@@ -131,4 +145,6 @@ public abstract class AbstractList extends JPanel{
 	protected abstract void deleteItem();
 
 	protected abstract void insertItem();
+	
+	protected void detailItem() {}
 }

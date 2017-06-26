@@ -77,15 +77,11 @@ public class Erp_Application extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(2, 2, 10, 10));
 		
-
 		chartPanel = new StateChartPanel("사원 현황");
 		contentPane.add(chartPanel);
 		
 		empList = new EmployeeList("사원관리", this);
 		contentPane.add(empList);
-		
-		inputPanel = new JPanel(new BorderLayout());
-		contentPane.add(inputPanel);
 		
 		JPanel etc = new JPanel(new GridLayout(0, 2));
 		deptList = new DepartmentList("부서관리", this);
@@ -94,6 +90,8 @@ public class Erp_Application extends JFrame implements ActionListener {
 		etc.add(titleList);
 		contentPane.add(etc);
 		
+		inputPanel = new JPanel(new BorderLayout());
+		contentPane.add(inputPanel);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -108,7 +106,7 @@ public class Erp_Application extends JFrame implements ActionListener {
 		}
 	}
 	
-	public void replacePanel(AbstractView<?> view){
+	public void replacePanel(JPanel view){
 		inputPanel.removeAll();
 		inputPanel.add(view, BorderLayout.CENTER);
 		revalidate();

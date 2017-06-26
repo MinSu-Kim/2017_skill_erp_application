@@ -184,4 +184,22 @@ public class EmployeeDao implements Dao<Employee> {
 		}
 		return cnt;
 	}
+
+	@Override
+	public int selectNextNo() {
+		sql = "select Max(empno) from employee";
+		int nextNo = -1;
+		try {
+			pstmt = DBCon.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				nextNo = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return nextNo;
+	}
 }

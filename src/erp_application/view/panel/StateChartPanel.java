@@ -21,8 +21,8 @@ public class StateChartPanel extends JPanel {
 		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		
-		deptChartPanel = new ChartPanel(new String[]{"마케팅","개발", "경영"}, new int[]{18,8,7}, 33, "부서별 인원");
-		titleChartPanel = new ChartPanel(new String[]{"사장","부장", "과장", "대리", "사원"}, new int[]{1,2,3,4,10}, 20, "직책별 인원");
+		deptChartPanel = new ChartPanel("부서별 인원");
+		titleChartPanel = new ChartPanel("직책별 인원");
 		
 		add(deptChartPanel);
 		add(titleChartPanel);
@@ -32,7 +32,6 @@ public class StateChartPanel extends JPanel {
 
 	
 	public void setDeptChart(boolean isDept){
-		
 		if (isDept){
 			Chart chart = ChartDao.getInstance().selectByChartDatas(isDept);
 			deptChartPanel.setChartData(chart.getNames(), chart.getEmpCnts(), chart.getTotalCnt());

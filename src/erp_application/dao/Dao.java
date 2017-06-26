@@ -10,4 +10,5 @@ public interface Dao<T> {
 	List<T> selectByAllItems();
 	void deleteItem(int idx);
 	int rowCnt();
+	int selectNextNo();
 }

@@ -17,14 +17,8 @@ public class ChartPanel extends JLabel {
 	private int totalCnt;			//총인원수
 	private Color textColor = new Color(0,0,0);
 	
-	public ChartPanel(String[] names, int[] empCnts, int totalCnt, String title) {
+	public ChartPanel(String title) {
 		setBorder(new TitledBorder(null, title, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		this.names = names;
-		this.empCnts = empCnts;
-		this.pieColor = new Color[names.length];
-		this.arcAngle = new int[names.length];
-		this.totalCnt = totalCnt;
-		initChart();
 	}
 
 	public void setChartData(String[] names, int[] empCnts, int totalCnt){
@@ -34,14 +28,20 @@ public class ChartPanel extends JLabel {
 		this.arcAngle = new int[names.length];
 		this.totalCnt = totalCnt;
 		initChart();
+		initColor();
 		repaint();
+	}
+	
+	private void initColor(){
+		for(int i=0; i<names.length; i++) {
+			pieColor[i] = new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
+		}	
 	}
 	
 	private void initChart(){
 		if (empCnts!=null){
-			for(int i=0; i<empCnts.length; i++) {
+			for(int i=0; i<names.length; i++) {
 				arcAngle[i]=(int)Math.round((double)empCnts[i]/(double)totalCnt*360);
-				pieColor[i] = new Color(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
 			}	
 		}
 	}
@@ -52,13 +52,14 @@ public class ChartPanel extends JLabel {
 		super.paintComponent(g);
 		if (empCnts!=null){
 			int startAngle = 0;
-			for(int i=0; i<empCnts.length; i++) {
+			for(int i=0; i<names.length; i++) {
 				g.setColor(pieColor[i]);
 				g.fillRect(180, 30+i*20, 10, 10);
 				g.setColor(textColor);
 				g.drawString(names[i] + " " + empCnts[i]+" 명", 200, 40+i*20);
 			}
-			for(int i=0; i<empCnts.length; i++) {
+			
+			for(int i=0; i<names.length; i++) {
 				g.setColor(pieColor[i]);
 				g.fillArc(20,20,150,150,startAngle, arcAngle[i]);
 				startAngle = startAngle + arcAngle[i];

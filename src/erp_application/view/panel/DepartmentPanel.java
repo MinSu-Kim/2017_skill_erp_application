@@ -18,12 +18,13 @@ public class DepartmentPanel extends AbstractMainPanel<Department>{
 	private JTextField tfTitle;
 	private JLabel lblFloor;
 	private JTextField tfFloor;
+	private JPanel pMain;
 
 	public DepartmentPanel() {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setLayout(new BorderLayout(0, 0));
 		
-		JPanel pMain = new JPanel();
+		pMain = new JPanel();
 		add(pMain);
 		pMain.setLayout(new GridLayout(0, 2, 10, 0));
 		
@@ -59,13 +60,14 @@ public class DepartmentPanel extends AbstractMainPanel<Department>{
 	
 	@Override
 	public void clearObject() {
-		tfNo.setText(String.format("D%03d",nextNo()));
+		tfNo.setText(nextNo());
 		tfTitle.setText("");
 		tfFloor.setText("");		
 	}
 
 	@Override
 	public Department getObject() throws Exception {
+		isEmptyCheck(pMain);
 		int deptNo = Integer.parseInt(tfNo.getText().substring(1));
 
 		String deptName = tfTitle.getText().trim();

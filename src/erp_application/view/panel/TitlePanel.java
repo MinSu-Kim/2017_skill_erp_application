@@ -1,6 +1,7 @@
 package erp_application.view.panel;
 
 import java.awt.GridLayout;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -38,16 +39,17 @@ public class TitlePanel extends AbstractMainPanel<Title>{
 
 	@Override
 	public void clearObject() {
-		tfNo.setText(String.format("T%03d", nextNo()));
+		tfNo.setText(nextNo());
 		tfTitle.setText("");		
 	}
 
 	@Override
 	public Title getObject() throws Exception {
+		isEmptyCheck(this);
 		int no = Integer.parseInt(tfNo.getText().substring(1));
 		String title = tfTitle.getText().trim();
-		if (title.matches("[0-9]*")){
-			throw new Exception("숫자는 불가능 합니다.");
+		if (Pattern.matches("[0-9]", String.valueOf(title.charAt(0)))){
+			throw new Exception("첫글자는 문자만 가능 합니다.");
 		}
 		return new Title(no, title);
 	}

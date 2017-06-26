@@ -61,17 +61,19 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 				}else{
 					btnUpdateActionPerformed();
 				}
-				JOptionPane.showMessageDialog(null, e.getActionCommand() + " 되었습니다.");
-				pMain.clearObject();
-				reloadList();
 			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage());
+				JOptionPane.showMessageDialog(null, e.getActionCommand() + " 실패 되었습니다.");
 				pMain.setSelectedTitle();
+				return;
 			}
+			JOptionPane.showMessageDialog(null, e.getActionCommand() + " 되었습니다.");
+			pMain.clearObject();
+			reloadList();
 		}
 	}
 	
 	protected abstract void btnUpdateActionPerformed() throws Exception;
+	
 	protected abstract void btnAddActionPerformed() throws Exception;
 	
 	protected void btnCancelActionPerformed(){
@@ -82,4 +84,11 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 		setVisible(false);
 		main.reloadList();
 	}
+
+	public AbstractMainPanel<T> getpMain() {
+		return pMain;
+	}
+	
+	
+
 }

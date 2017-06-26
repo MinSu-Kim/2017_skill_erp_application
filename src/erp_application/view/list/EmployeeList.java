@@ -9,6 +9,7 @@ import javax.swing.SwingConstants;
 import erp_application.Erp_Application;
 import erp_application.dao.EmployeeDao;
 import erp_application.dto.Employee;
+import erp_application.view.EmployeeDetailView;
 import erp_application.view.EmployeeView;
 
 @SuppressWarnings("serial")
@@ -16,6 +17,7 @@ public class EmployeeList extends AbstractList {
 
 	public EmployeeList(String title, Erp_Application main) {
 		super(title, main);
+		isEmpDetail = true;
 	}
 
 	protected String[] getColumns() {
@@ -73,5 +75,13 @@ public class EmployeeList extends AbstractList {
 		EmployeeDao.getInstance().deleteItem(selectItem.getEmpNo());
 		JOptionPane.showMessageDialog(null, selectItem + " 삭제 되었습니다.");
 		main.reloadList();
+	}
+	
+	@Override
+	protected void detailItem() {
+		Employee selectItem  = (Employee) getSelectedData();
+		EmployeeDetailView empDetailView = new EmployeeDetailView("사원 정보", table, selectedIdx);
+		empDetailView.setObject(selectItem);
+		main.replacePanel(empDetailView);
 	}
 }

@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import erp_application.dao.DepartmentDao;
+import erp_application.dao.EmployeeDao;
 import erp_application.dao.PostDao;
 import erp_application.dao.TitleDao;
 import erp_application.dto.Address;
@@ -36,6 +37,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	private JTextField tfAddr;
 	private JTextField tfPost;
 	private JButton btnPost;
+	private JPanel pMain;
 
 	public EmployeePanel() {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -48,7 +50,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		add(pEmp, BorderLayout.CENTER);
 		pEmp.setLayout(new BoxLayout(pEmp, BoxLayout.Y_AXIS));
 
-		JPanel pMain = new JPanel();
+		pMain = new JPanel();
 		pEmp.add(pMain);
 		pMain.setLayout(new GridLayout(0, 2, 10, 0));
 
@@ -57,8 +59,12 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		lblNo.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		tfNo = new JTextField();
-		pMain.add(tfNo);
 		tfNo.setColumns(10);
+		tfNo.setEditable(false);
+		tfNo.setText(nextNo());
+		pMain.add(tfNo);
+
+		
 		JLabel lblName = new JLabel("사원명");
 		pMain.add(lblName);
 		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -125,9 +131,20 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		}
 	}
 
+	public void disableObject() {
+		tfNo.setEnabled(false);
+		tfName.setEnabled(false);
+		cmbTitle.setEnabled(false);
+		spinnerSalary.setEnabled(false);
+		cmbDno.setEnabled(false);
+		tfAddr.setEnabled(false);
+		tfPost.setEnabled(false);
+		btnPost.setEnabled(false);
+	}
+	
 	@Override
 	public void clearObject() {
-		tfNo.setText(String.format("E%06d", nextNo()));
+		tfNo.setText(nextNo());
 		tfName.setText("");
 		cmbTitle.setSelectedIndex(0);
 		spinnerSalary.setModel(new SpinnerNumberModel(new Integer(2000000), new Integer(1500000), new Integer(5000000), new Integer(100000)));
@@ -138,6 +155,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public Employee getObject() throws Exception {
+		isEmptyCheck(pMain);
 		String strEmpNo = tfNo.getText();
 		int empNo = Integer.parseInt(strEmpNo.substring(1));
 		String empName = tfName.getText().trim();
@@ -153,7 +171,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public void setObject(Employee obj) {
-		tfNo.setText(String.format("E%06d", obj.getEmpNo()));
+		tfNo.setText(String.format("E%04d", obj.getEmpNo()));
 		tfName.setText(obj.getEmpName());
 		cmbTitle.setSelectedItem(obj.getTitle());
 		spinnerSalary.setModel(new SpinnerNumberModel(Integer.valueOf(obj.getSalary()), new Integer(1500000), new Integer(5000000), new Integer(100000)));
@@ -164,13 +182,13 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public String nextNo() {
-		return null;
+		return String.format("E%04d",EmployeeDao.getInstance().selectNextNo()+1);
 	}
 
 	@Override
 	public void setSelectedTitle() {
-		tfNo.requestFocus();
-		tfNo.selectAll();
+		tfName.requestFocus();
+		tfName.selectAll();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -180,10 +198,9 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	}
 
 	protected void btnPostActionPerformed(ActionEvent e) {
-		String doro = JOptionPane.showInputDialog(null, "도로명을 입력하세요");
+		String doro = JOptionPane.showInputDialog("도로명을 입력하세요", "엉또로");
 		List<Address> resList = PostDao.getInstance().selectZipCodeByDoro(doro);
-		Address searchAddr = (Address) JOptionPane.showInputDialog(null, "해당주소 선택", "우편번호 검색",
-				JOptionPane.INFORMATION_MESSAGE, null, resList.toArray(), resList.get(0));
+		Address searchAddr = (Address) JOptionPane.showInputDialog(null, "해당주소 선택", "우편번호 검색", JOptionPane.INFORMATION_MESSAGE, null, resList.toArray(), resList.get(0));
 		tfPost.setText(searchAddr.getZipCode());
 		tfAddr.setText(searchAddr.toString());
 		tfAddr.requestFocus();
