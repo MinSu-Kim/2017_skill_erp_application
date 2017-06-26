@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import erp_application.Erp_Application;
@@ -102,15 +101,13 @@ public abstract class AbstractList extends JPanel{
 	};
 	
 	public void reload() {
-		table.setModel(new DefaultTableModel(getRows(), getColumns()));
+		NonEditableModel model = new NonEditableModel(getRows(), getColumns());
+		table.setModel(model);
 		table.revalidate();
 		table.clearSelection();
 		reAlign();
 		reSize();
 	}
-
-
-
 
 	protected void tableCellAlignment(int align, int... idx) {
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();

@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 import erp_application.jdbc.ExportSettingService;
 import erp_application.jdbc.ImportSettingService;
-import erp_application.view.AbstractView;
 import erp_application.view.list.AbstractList;
 import erp_application.view.list.DepartmentList;
 import erp_application.view.list.EmployeeList;
