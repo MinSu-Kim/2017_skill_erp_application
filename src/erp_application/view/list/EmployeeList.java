@@ -21,7 +21,7 @@ public class EmployeeList extends AbstractList {
 	}
 
 	protected String[] getColumns() {
-		return new String[]{"사원번호", "사원명", "직책", "급여", "부서", "주소"};
+		return new String[]{"사원번호", "사원명", "직책", "급여", "부서"};
 	}
 
 	protected String[][] getRows() {
@@ -38,7 +38,7 @@ public class EmployeeList extends AbstractList {
 	protected void reAlign() {
 		tableCellAlignment(SwingConstants.CENTER, 0, 1, 2, 4);
 		tableCellAlignment(SwingConstants.RIGHT, 3);
-		tableSetWidth(80, 80, 60, 110, 60, 400);		
+		tableSetWidth(80, 80, 60, 110, 60);		
 	}
 
 	@Override

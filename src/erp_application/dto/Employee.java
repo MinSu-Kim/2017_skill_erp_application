@@ -100,9 +100,9 @@ public class Employee {
 	}
 	
 	public String[] toArray(){
-		//"사원번호", "사원명", "직책", "급여", "부서", "주소", "세부 주소"
+		//"사원번호", "사원명", "직책", "급여", "부서"
 	
-		return new String[]{String.format("E%04d", empNo), empName, title.getTitle(), String.format("%,d",salary), dept.getDeptName(), addr};
+		return new String[]{String.format("E%04d", empNo), empName, title.getTitle(), String.format("%,d",salary), dept.getDeptName()};
 	}
 	
 }

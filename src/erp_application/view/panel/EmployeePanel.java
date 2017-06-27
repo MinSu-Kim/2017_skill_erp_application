@@ -52,6 +52,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	private JLabel lblPic;
 	private JButton btnPic;
 	private String picPath;
+	private Employee emp;
 	
 	public EmployeePanel() {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -143,6 +144,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		pPic.setLayout(new BoxLayout(pPic, BoxLayout.Y_AXIS));
 		
 		lblPic = new JLabel("");
+		lblPic.setSize(120, 160);
 		lblPic.setIcon(new ImageIcon(new ImageIcon(Config.IMPORT_DIR+ "\\img\\seohyunjin.jpg").getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
 		pPic.add(lblPic);
 		
@@ -160,17 +162,6 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 		for (Department dept : lists) {
 			cmbDno.addItem(dept);
 		}
-	}
-
-	public void disableObject() {
-		tfNo.setEnabled(false);
-		tfName.setEnabled(false);
-		cmbTitle.setEnabled(false);
-		spinnerSalary.setEnabled(false);
-		cmbDno.setEnabled(false);
-		tfAddr.setEnabled(false);
-		tfPost.setEnabled(false);
-		btnPost.setEnabled(false);
 	}
 	
 	@Override
@@ -203,6 +194,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	@Override
 	public void setObject(Employee obj) {
+		this.emp = obj;
 		tfNo.setText(String.format("E%04d", obj.getEmpNo()));
 		tfName.setText(obj.getEmpName());
 		cmbTitle.setSelectedItem(obj.getTitle());
@@ -219,17 +211,25 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 
 	private byte[] getImage() {
 		byte[] pic = null;
-		File file = new File(picPath);
-		try {
-			InputStream is = new FileInputStream(file);
-			pic = new byte[is.available()];
-			is.read(pic);
-			is.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		File file = null;
+		
+		if (picPath !=null){
+			file = new File(picPath);
+			try {
+				InputStream is = new FileInputStream(file);
+				pic = new byte[is.available()];
+				is.read(pic);
+				is.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			pic = emp.getPic();
+			
 		}
+		
 		return pic;
 	}
 	
@@ -264,7 +264,7 @@ public class EmployeePanel extends AbstractMainPanel<Employee> implements Action
 	
 	protected void actionPerformedBtnPic(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif", "png");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG Image", "jpg");
 		chooser.setFileFilter(filter);
 		chooser.setCurrentDirectory(new File(Config.IMPORT_DIR));
 		int ret = chooser.showOpenDialog(null);

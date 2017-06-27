@@ -63,6 +63,7 @@ public abstract class AbstractView<T> extends JPanel implements ActionListener {
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, e.getActionCommand() + " 실패 되었습니다.");
+				e1.printStackTrace();
 				pMain.setSelectedTitle();
 				return;
 			}

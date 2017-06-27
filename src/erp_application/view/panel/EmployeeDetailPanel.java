@@ -2,14 +2,17 @@ package erp_application.view.panel;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import erp_application.Config;
 import erp_application.dto.Employee;
 
 @SuppressWarnings("serial")
@@ -22,6 +25,7 @@ public class EmployeeDetailPanel extends JPanel {
 	private JTextField tfAddr;
 	private JTextField tfPost;
 	private JPanel pMain;
+	private JLabel lblPic;
 
 	public EmployeeDetailPanel() {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -29,6 +33,14 @@ public class EmployeeDetailPanel extends JPanel {
 
 		JPanel pBtn = new JPanel();
 		add(pBtn, BorderLayout.SOUTH);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.WEST);
+		
+		lblPic = new JLabel("");
+		lblPic.setSize(120, 160);
+		lblPic.setIcon(new ImageIcon(new ImageIcon(Config.IMPORT_DIR+ "\\img\\seohyunjin.jpg").getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
+		panel.add(lblPic);
 
 		JPanel pEmp = new JPanel();
 		add(pEmp, BorderLayout.CENTER);
@@ -102,7 +114,7 @@ public class EmployeeDetailPanel extends JPanel {
 
 	}
 
-	public void disableObject() {
+/*	public void disableObject() {
 		tfNo.setEnabled(false);
 		tfName.setEnabled(false);
 		cmbTitle.setEnabled(false);
@@ -110,7 +122,7 @@ public class EmployeeDetailPanel extends JPanel {
 		cmbDno.setEnabled(false);
 		tfAddr.setEnabled(false);
 		tfPost.setEnabled(false);
-	}
+	}*/
 	
 	public void setObject(Employee obj) {
 		tfNo.setText(String.format("E%04d", obj.getEmpNo()));
@@ -120,6 +132,11 @@ public class EmployeeDetailPanel extends JPanel {
 		cmbDno.setText(obj.getDept().getDeptName());
 		tfPost.setText(obj.getPost());
 		tfAddr.setText(obj.getAddr());
+		if (obj.getPic()!=null){
+			lblPic.setIcon(new ImageIcon(new ImageIcon(obj.getPic()).getImage().getScaledInstance(120, 160, Image.SCALE_DEFAULT)));
+		}else{
+			lblPic.setIcon(null);
+		}
 	}
 
 }
