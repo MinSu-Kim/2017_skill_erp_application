@@ -16,7 +16,6 @@ import java.sql.Statement;
 import erp_application.Config;
 
 
-
 public class ExportSettingService {
 	
 	public void initSetting() {
@@ -48,7 +47,6 @@ public class ExportSettingService {
 		} catch (SQLException e) {
 			System.out.printf("error %d : %s %n", e.getErrorCode(), e.getMessage());
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(stmt);
@@ -75,11 +73,12 @@ public class ExportSettingService {
 			int lineCount = 0;
 			while (rs.next()) {
 				for (int i = 1; i <= colCnt; i++) {
-					sb.append(rs.getObject(i) + ","); // 필드사이 구분 [,] 찍어줌
+					
 					if(rs.getMetaData().getColumnName(i).equals("pic")){
 						saveImage(rs.getBytes(i), (int) rs.getObject(1));
 						sb.append(rs.getObject(1)+".jpg");
 					}
+					sb.append(rs.getObject(i) + ","); // 필드사이 구분 [,] 찍어줌
 				}
 				sb.replace(sb.length() - 1, sb.length(), ""); // 마지막라인 [,] 제거
 				sb.append("\n");
@@ -95,6 +94,5 @@ public class ExportSettingService {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 }
