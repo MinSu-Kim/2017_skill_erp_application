@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
 import erp_application.dto.Department;
 import erp_application.jdbc.DBCon;
 import erp_application.jdbc.JdbcUtil;
@@ -108,6 +110,8 @@ public class DepartmentDao implements Dao<Department>{
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
+		} catch (MySQLIntegrityConstraintViolationException e) {
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

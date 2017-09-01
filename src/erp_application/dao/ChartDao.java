@@ -34,7 +34,7 @@ public class ChartDao {
 		}
 		
 		int [] empCnts = getCountByTitle(titles);//직책별 인원수
-		System.out.println(Arrays.toString(empCnts));
+//		System.out.println(Arrays.toString(empCnts));
 		
 		Chart chart = new Chart();
 		chart.setNames(names);
@@ -47,7 +47,7 @@ public class ChartDao {
 		int [] empCnts = new int[titles.size()];
 		for(int i=0; i<empCnts.length; i++){
 			empCnts[i]=EmployeeDao.getInstance().selectEmployeeByTitle(titles.get(i));
-			System.out.println(empCnts[i]);
+//			System.out.println(empCnts[i]);
 		}
 		return empCnts;
 	}

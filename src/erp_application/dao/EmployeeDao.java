@@ -97,7 +97,6 @@ public class EmployeeDao implements Dao<Employee> {
 		try {
 			pstmt = DBCon.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, title.getNo());
-			System.out.println(pstmt);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				cnt = rs.getInt(1);
